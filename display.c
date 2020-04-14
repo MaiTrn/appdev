@@ -2,8 +2,18 @@
 //the user types in fg for the color theywant.
 //Folow this reference: http://www.termys.demon.co.uk.vtansi.htm
 #include <stdio.h>
-
 #include "display.h"
+
+int devicestatus(void)
+{
+	printf("%c[5n", ESC);
+	char status[40];
+	scanf("%s", status);
+	int ret;
+	char dum;
+	sscanf(status, "%c%c%d%c", &dum, &dum, &ret, &dum);
+	return ret;
+}
 
 void setfgcolor(int fg)
 {
