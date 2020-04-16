@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include "display.h"
 #include "comm.h"
+#include "sound.h"
 
 //use capitalized letters for colors
 
@@ -34,7 +35,7 @@ int main(void)
 
 		setfgcolor(RED);
 		setcursor(j, i);
-		printf("%d\n", j);
+		printf("HELLO\n");
 
 		sleep(1);
 	}
@@ -72,4 +73,10 @@ int main(void)
 	resetcolor();
 	clearscreen();
 	setcursor(1,1);
+
+	FILE *fp;
+	fp = fopen("test.wav", "r");
+	WAVheader h = readwavhdr(fp);
+	fclose(fp);
+	displaywavhdr(h);
 }

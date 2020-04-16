@@ -1,4 +1,4 @@
-OBJ = display.o testscreen.o comm.o
+OBJ = display.o testscreen.o comm.o sound.o
 APPNAME = screentest
 
 #linking rule
