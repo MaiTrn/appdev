@@ -1,9 +1,15 @@
-//This file changes and reset color.
-//the user types in fg for the color theywant.
+//in this file we are going to define a number of functions for screen
+//manipulation. These functions include erase screen, set color attributes,
+//set cursor location, etc.. using VT100 escapse sequences.
+//move between files: alt_., alt_,
+
 //Folow this reference: http://www.termys.demon.co.uk.vtansi.htm
+//to paste to putty: shift_insert key
+
 #include <stdio.h>
 #include "display.h"
 
+//function definitions
 int devicestatus(void)
 {
 	printf("%c[5n", ESC);

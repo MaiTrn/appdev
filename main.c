@@ -5,8 +5,6 @@
 #include "comm.h"
 #include "sound.h"
 
-//use capitalized letters for colors
-
 int main(void)
 {
 	clearscreen();
@@ -14,7 +12,7 @@ int main(void)
 	fp = fopen("test.wav", "r");
 	WAVheader h = readwavhdr(fp);
 	displaywavhdr(h);
-	wavdata(h, fp);	//to calculate db values and display them in a bar chart
+	wavdata(h, fp);		//to calculate db values and display them in a bar chart
 	fclose(fp);
 	getchar();
 	clearscreen();

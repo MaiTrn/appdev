@@ -18,9 +18,9 @@ void displaywavhdr(WAVheader h)
 		printf("%c", h.chunkID[i]);
 	printf("\nChunk size: %d\n", h.chunkSize);
 	printf("Num of channels: %d\n", h.numChannels);
+	printf("Sample rate: %d\n", h.sampleRate);
 	printf("Block align: %d\n", h.blockAlign);
 	printf("Bits per sample: %d\n", h.bitsperSample);
-	printf("\nSample rate: %d\n", h.sampleRate);
 }
 void wavdata(WAVheader h, FILE *fp)
 {
@@ -29,9 +29,9 @@ void wavdata(WAVheader h, FILE *fp)
 	//(RMS) formula. We will display a 5-sec recorded sound into bar chart
 	//our sound file uses sample rate of 16000 for 5 sec, there are
 	//5* 16000 = 80000 samples, we want to display them into 160 bars
-	short samples[500];
-	int peak = 0;
-	int flag = 0;
+	short samples[500];		//to read 500 samples from wav file
+	int peak = 0;			//to count the number of peaks
+	int flag = 0;			//to show that you are in a peak
 	for (int i=0; i<160; i++){
 		fread(samples, sizeof(samples), 1, fp);
 		double sum = 0.0;
@@ -46,7 +46,7 @@ void wavdata(WAVheader h, FILE *fp)
 		if (20*log10(re) > 60) {
 			setfgcolor(RED);
 			if (flag == 0)
-				peak++;
+				peak++;		//got a peak
 		}
 		else {
 			setfgcolor(WHITE);
@@ -55,8 +55,12 @@ void wavdata(WAVheader h, FILE *fp)
 		drawbar(i+1, (int)20*log10(re)/3);
 #endif
 	}
+	//display sample rate, duration, no. of peaks on top of the screen
 	resetcolor();
-	setcursor(8,1);
+	setcursor(1,1);
+	printf("Sample Rate: %d\n", h.sampleRate);
+	setcursor(1,75);
 	printf("Duration: %.2f s\n", (float)h.subchunk2Size/h.byteRate);
+	setcursor(1,150);
 	printf("The number of peaks in this soundtrack: %d", peak);
 }
