@@ -2,6 +2,7 @@
 #include <math.h>
 #include "sound.h"
 #include "display.h"
+#include "comm.h"
 
 WAVheader readwavhdr(FILE *fp)
 {
@@ -32,6 +33,7 @@ void wavdata(WAVheader h, FILE *fp)
 	short samples[500];		//to read 500 samples from wav file
 	int peak = 0;			//to count the number of peaks
 	int flag = 0;			//to show that you are in a peak
+	double maxDB = 0;		//maximum decibel value
 	for (int i=0; i<160; i++){
 		fread(samples, sizeof(samples), 1, fp);
 		double sum = 0.0;
@@ -52,6 +54,10 @@ void wavdata(WAVheader h, FILE *fp)
 			setfgcolor(WHITE);
 			flag = 0;
 		}
+		if (20*log10(re) > maxDB)
+		{
+			maxDB = 20*log10(re);
+		}
 		drawbar(i+1, (int)20*log10(re)/3);
 #endif
 	}
@@ -59,8 +65,17 @@ void wavdata(WAVheader h, FILE *fp)
 	resetcolor();
 	setcursor(1,1);
 	printf("Sample Rate: %d\n", h.sampleRate);
-	setcursor(1,75);
+	setcursor(1,40);
 	printf("Duration: %.2f s\n", (float)h.subchunk2Size/h.byteRate);
-	setcursor(1,150);
-	printf("The number of peaks in this soundtrack: %d", peak);
+	setcursor(1,80);
+	printf("Number of peaks: %d", peak);
+	setcursor(1, 120);
+	printf("Maximum decibel value: %.4lf\n", maxDB);
+	char postdata[100];
+	//send number of peaks and maximum decibel value with 4 decimal points
+	//to the string array
+	sprintf(postdata, "peaks=%d&max=%.4lf", peak, maxDB);
+	//send the data to the server
+	senddata(postdata, sURL);
 }
+
