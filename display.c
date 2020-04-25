@@ -50,7 +50,7 @@ void drawbar(int col, int height)
 {
 	for (int i = 1; i <= height; i++)
 	{
-		setcursor(i, col);
+		setcursor(35-i, col);
 #ifdef UNICODE
 		printf("%s", BAR);
 #else
