@@ -20,8 +20,7 @@ Table of Contents
 
 
 1. Configuration instructions
-	To run this program you need to have at least a command prompt terminal. 
-	(e.g. putty, git bash, Visual Studio command prompt, built-in command prompt) 
+	To run this program you need to have putty. 
 
 2. Installation instructions
 	Follow these steps: 
